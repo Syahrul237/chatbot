@@ -1,0 +1,24 @@
+{
+    "timestamp": "2025-10-24 22:54:28.953659",
+    "messages": [
+        {
+            "role": "assistant",
+            "content": "Halo! Saya siap bantu konsultasi bisnis UMKM kamu. Ada tantangan apa hari ini?"
+        },
+        {
+            "role": "user",
+            "content": "siapa kamu ?"
+        },
+        {
+            "role": "assistant",
+            "content": "Saya konsultan bisnis khusus untuk UMKM di Indonesia. Siap bantu pengembangan usahamu di bidang Fashion."
+        }
+    ],
+    "profile": {
+        "nama": "Belum diisi",
+        "bidang": "Fashion",
+        "lokasi": "Belum diisi",
+        "omzet": "Belum diisi",
+        "tantangan": "Belum diisi"
+    }
+}
