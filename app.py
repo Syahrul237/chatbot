@@ -66,7 +66,7 @@ st.sidebar.markdown("Isi profil bisnis agar saran lebih relevan:")
 
 st.session_state.nama_usaha = st.sidebar.text_input(
     "Nama Usaha", 
-    value=st.session_state.get("nama_usaha", "Belum diisi")
+    value=st.session_state.get("nama_usaha", " ")
 )
 st.session_state.bidang_usaha = st.sidebar.selectbox(
     "Bidang Usaha",
@@ -75,15 +75,15 @@ st.session_state.bidang_usaha = st.sidebar.selectbox(
 )
 st.session_state.lokasi_usaha = st.sidebar.text_input(
     "Lokasi Usaha", 
-    value=st.session_state.get("lokasi_usaha", "Belum diisi")
+    value=st.session_state.get("lokasi_usaha", " ")
 )
 st.session_state.omzet_usaha = st.sidebar.text_input(
     "Rata-rata Omzet (per bulan)", 
-    value=st.session_state.get("omzet_usaha", "Belum diisi")
+    value=st.session_state.get("omzet_usaha", " ")
 )
 st.session_state.tantangan = st.sidebar.text_area(
     "Tantangan utama bisnis Anda", 
-    value=st.session_state.get("tantangan", "Belum diisi")
+    value=st.session_state.get("tantangan", " ")
 )
 
 if st.sidebar.button("💾 Simpan Profil"):
