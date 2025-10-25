@@ -4,7 +4,5 @@ streamlit
 python-dotenv
 langchain
 langchain-community
-google-generativeai
-google-ai-generativelanguage==0.6.15
-google-genai
+google-generativeai==0.8.3
 pyttsx3
