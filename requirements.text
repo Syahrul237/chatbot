@@ -1,8 +1,0 @@
-cmake
-pyarrow
-streamlit
-python-dotenv
-langchain
-langchain-community
-google-generativeai==0.8.3
-pyttsx3
