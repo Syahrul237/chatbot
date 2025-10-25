@@ -145,6 +145,9 @@ if "messages" not in st.session_state:
 if "known_answers" not in st.session_state:
     st.session_state.known_answers = {}
 
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
 if "system_context" not in st.session_state:
     st.session_state.system_context = (
         "Kamu adalah konsultan bisnis UMKM di Indonesia. "
