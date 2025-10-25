@@ -41,8 +41,8 @@ def save_chat_history():
             "tantangan": st.session_state.tantangan,
         },
     }
-    with open(get_user_filename(), "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
+    #with open(get_user_filename(), "w", encoding="utf-8") as f:
+       # json.dump(data, f, indent=4, ensure_ascii=False)
 
 def load_chat_history():
     """Muat riwayat chat dan profil jika file sudah ada"""
