@@ -1,10 +1,10 @@
 cmake
-pyarrow --only-binary=:all:
+pyarrow
 streamlit
 python-dotenv
 langchain
 langchain-community
-google-generativeai==0.8.5 
+google-generativeai
 google-ai-generativelanguage==0.6.15
 google-genai
 pyttsx3
