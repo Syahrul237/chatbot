@@ -31,8 +31,8 @@ def get_user_filename():
 def save_chat_history():
     """Simpan profil dan riwayat chat ke file JSON"""
     data = {
-        "timestamp": str(datetime.datetime.now()),
-        "messages": st.session_state.messages,
+       # "timestamp": str(datetime.datetime.now()),
+       # "messages": st.session_state.messages,
         "profile": {
             "nama": st.session_state.nama_usaha,
             "bidang": st.session_state.bidang_usaha,
