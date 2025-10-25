@@ -5,6 +5,8 @@ import os
 import json
 import datetime
 import pyttsx3
+import sys
+import subprocess
 
 # === Konfigurasi dasar ===
 load_dotenv()
@@ -189,3 +191,8 @@ if st.button("🔄 Hapus Riwayat Chat"):
     save_chat_history()
     st.success("Riwayat chat berhasil dihapus.")
     st.rerun()
+
+# Debug info
+st.write("Python version:", sys.version)
+st.write("Installed packages:")
+subprocess.run(["pip", "list"])
