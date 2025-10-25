@@ -70,8 +70,7 @@ st.session_state.nama_usaha = st.sidebar.text_input(
 )
 st.session_state.bidang_usaha = st.sidebar.selectbox(
     "Bidang Usaha",
-    ["Makanan/Minuman", "Fashion", "Kerajinan", "Jasa", "Pertanian", "Lainnya"],
-    index=0
+    ["Makanan/Minuman", "Fashion", "Kerajinan", "Jasa", "Pertanian", "Lainnya"]
 )
 st.session_state.lokasi_usaha = st.sidebar.text_input(
     "Lokasi Usaha", 
