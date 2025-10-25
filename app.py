@@ -30,19 +30,19 @@ def get_user_filename():
 
 def save_chat_history():
     """Simpan profil dan riwayat chat ke file JSON"""
-    # data = {
+    data = {
        # "timestamp": str(datetime.datetime.now()),
        # "messages": st.session_state.messages,
-        #"profile": {
-           # "nama": st.session_state.nama_usaha,
-           # "bidang": st.session_state.bidang_usaha,
-           # "lokasi": st.session_state.lokasi_usaha,
-           # "omzet": st.session_state.omzet_usaha,
-          #  "tantangan": st.session_state.tantangan,
-        #},
-    #}
-    #with open(get_user_filename(), "w", encoding="utf-8") as f:
-       # json.dump(data, f, indent=4, ensure_ascii=False)
+        "profile": {
+           "nama": st.session_state.nama_usaha,
+           "bidang": st.session_state.bidang_usaha,
+           "lokasi": st.session_state.lokasi_usaha,
+           "omzet": st.session_state.omzet_usaha,
+           "tantangan": st.session_state.tantangan,
+        },
+    }
+    with open(get_user_filename(), "w", encoding="utf-8") as f:
+       json.dump(data, f, indent=4, ensure_ascii=False)
 
 def load_chat_history():
     """Muat riwayat chat dan profil jika file sudah ada"""
@@ -209,7 +209,7 @@ if st.button("🔄 Hapus Riwayat Chat"):
     st.success("Riwayat chat berhasil dihapus.")
     st.rerun()
 
-# === Debug Info (Opsional) ===
-st.write("Python version:", sys.version)
-st.write("Installed packages:")
-subprocess.run(["pip", "list"])
+# # === Debug Info (Opsional) ===
+# st.write("Python version:", sys.version)
+# st.write("Installed packages:")
+# subprocess.run(["pip", "list"])
