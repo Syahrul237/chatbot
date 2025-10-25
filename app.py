@@ -1,12 +1,17 @@
 import streamlit as st
+import sys
+import subprocess
+# Debug info
+st.write("Python version:", sys.version)
+st.write("Installed packages:")
+subprocess.run(["pip", "list"])
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import json
 import datetime
 import pyttsx3
-import sys
-import subprocess
+
 
 # === Konfigurasi dasar ===
 load_dotenv()
