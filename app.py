@@ -1,10 +1,6 @@
 import streamlit as st
 import sys
 import subprocess
-# Debug info
-st.write("Python version:", sys.version)
-st.write("Installed packages:")
-subprocess.run(["pip", "list"])
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
@@ -131,7 +127,7 @@ st.markdown(f"""
         }}
     </style>
 """, unsafe_allow_html=True)
-
+st.sidebar.markdown("Create By: Moch Syahrul Masaid")
 # === Header ===
 st.markdown(f"""
 <div style='text-align:center'>
