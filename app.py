@@ -6,13 +6,12 @@ from dotenv import load_dotenv
 import os
 import json
 import datetime
+import time
 import pyttsx3
-
 
 # === Konfigurasi dasar ===
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 st.set_page_config(
@@ -66,7 +65,7 @@ st.sidebar.markdown("Isi profil bisnis agar saran lebih relevan:")
 
 st.session_state.nama_usaha = st.sidebar.text_input(
     "Nama Usaha", 
-    value=st.session_state.get("nama_usaha", " ")
+    value=st.session_state.get("nama_usaha", "")
 )
 st.session_state.bidang_usaha = st.sidebar.selectbox(
     "Bidang Usaha",
@@ -74,15 +73,15 @@ st.session_state.bidang_usaha = st.sidebar.selectbox(
 )
 st.session_state.lokasi_usaha = st.sidebar.text_input(
     "Lokasi Usaha", 
-    value=st.session_state.get("lokasi_usaha", " ")
+    value=st.session_state.get("lokasi_usaha", "")
 )
 st.session_state.omzet_usaha = st.sidebar.text_input(
     "Rata-rata Omzet (per bulan)", 
-    value=st.session_state.get("omzet_usaha", " ")
+    value=st.session_state.get("omzet_usaha", "")
 )
 st.session_state.tantangan = st.sidebar.text_area(
     "Tantangan utama bisnis Anda", 
-    value=st.session_state.get("tantangan", " ")
+    value=st.session_state.get("tantangan", "")
 )
 
 if st.sidebar.button("💾 Simpan Profil"):
@@ -92,15 +91,11 @@ if st.sidebar.button("💾 Simpan Profil"):
 # === Tema Gelap/Terang ===
 dark_mode = st.sidebar.toggle("🌙 Aktifkan Mode Gelap")
 if dark_mode:
-    bg = "#1e1e1e"
-    txt = "#f1f1f1"
-    user_bubble = "#3b82f6"
-    bot_bubble = "#2b2b2b"
+    bg, txt = "#1e1e1e", "#f1f1f1"
+    user_bubble, bot_bubble = "#3b82f6", "#2b2b2b"
 else:
-    bg = "#f8f9fa"
-    txt = "#2f2f2f"
-    user_bubble = "#d1e7ff"
-    bot_bubble = "#ffffff"
+    bg, txt = "#f8f9fa", "#2f2f2f"
+    user_bubble, bot_bubble = "#d1e7ff", "#ffffff"
 
 st.markdown(f"""
     <style>
@@ -126,7 +121,9 @@ st.markdown(f"""
         }}
     </style>
 """, unsafe_allow_html=True)
+
 st.sidebar.markdown("Create By: Moch Syahrul Masaid")
+
 # === Header ===
 st.markdown(f"""
 <div style='text-align:center'>
@@ -139,12 +136,22 @@ st.markdown("---")
 # === Inisialisasi State ===
 if "messages" not in st.session_state:
     load_chat_history()
+
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "assistant", "content": "Halo! Saya siap bantu konsultasi bisnis kamu. Ada tantangan apa hari ini?"}
     ]
+
 if "known_answers" not in st.session_state:
     st.session_state.known_answers = {}
+
+if "system_context" not in st.session_state:
+    st.session_state.system_context = (
+        "Kamu adalah konsultan bisnis UMKM di Indonesia. "
+        "Jawab dengan bahasa yang santai, mudah dipahami, dan singkat. "
+        "Jika pertanyaan tidak relevan dengan UMKM, jawab: "
+        "'Maaf, saya hanya bisa membantu seputar konsultasi bisnis UMKM.'"
+    )
 
 # === Tampilkan Riwayat Chat ===
 for msg in st.session_state.messages:
@@ -158,26 +165,33 @@ if prompt := st.chat_input("Tulis pertanyaanmu di sini..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.markdown(f"<div class='chat-bubble-user'>👤 {prompt}</div>", unsafe_allow_html=True)
 
+    # Buat cache key berdasarkan profil + pertanyaan
     normalized = prompt.strip().lower()
-    if normalized in st.session_state.known_answers:
-        bot_reply = st.session_state.known_answers[normalized]
+    cache_key = f"{st.session_state.nama_usaha}_{normalized}"
+
+    if cache_key in st.session_state.known_answers:
+        bot_reply = st.session_state.known_answers[cache_key]
     else:
+        # Buat konteks efisien (tidak kirim instruksi berulang)
         context = (
-            f"Kamu adalah konsultan bisnis UMKM di Indonesia. "
-            f"Gunakan profil pengguna berikut: "
-            f"Nama Usaha: {st.session_state.nama_usaha}, "
-            f"Bidang: {st.session_state.bidang_usaha}, "
-            f"Lokasi: {st.session_state.lokasi_usaha}, "
-            f"Omzet: {st.session_state.omzet_usaha}, "
-            f"Tantangan: {st.session_state.tantangan}. "
-            "Jawaban harus singkat, natural, dan mudah dipahami. "
-            "Hindari bahasa terlalu formal atau paragraf panjang. "
-            "Jika pertanyaan tidak relevan dengan UMKM, jawab: "
-            "'Maaf, saya hanya bisa membantu seputar konsultasi bisnis UMKM.'"
+            f"{st.session_state.system_context}\n\n"
+            f"Profil pengguna:\n"
+            f"- Nama Usaha: {st.session_state.nama_usaha}\n"
+            f"- Bidang: {st.session_state.bidang_usaha}\n"
+            f"- Lokasi: {st.session_state.lokasi_usaha}\n"
+            f"- Omzet: {st.session_state.omzet_usaha}\n"
+            f"- Tantangan: {st.session_state.tantangan}\n\n"
+            f"Pertanyaan: {prompt}"
         )
-        response = model.generate_content(f"{context}\n\nPertanyaan: {prompt}")
-        bot_reply = response.text.strip()
-        st.session_state.known_answers[normalized] = bot_reply
+
+        # Hindari spam klik kirim
+        if "last_sent" not in st.session_state or time.time() - st.session_state.last_sent > 2:
+            st.session_state.last_sent = time.time()
+            response = model.generate_content(context)
+            bot_reply = response.text.strip()
+            st.session_state.known_answers[cache_key] = bot_reply
+        else:
+            bot_reply = "Tunggu sebentar sebelum mengirim pesan berikutnya ya 😊"
 
     # Tampilkan jawaban bot
     st.markdown(f"<div class='chat-bubble-bot'>🤖 {bot_reply}</div>", unsafe_allow_html=True)
@@ -192,7 +206,7 @@ if st.button("🔄 Hapus Riwayat Chat"):
     st.success("Riwayat chat berhasil dihapus.")
     st.rerun()
 
-# Debug info
+# === Debug Info (Opsional) ===
 st.write("Python version:", sys.version)
 st.write("Installed packages:")
 subprocess.run(["pip", "list"])
