@@ -199,7 +199,7 @@ if prompt := st.chat_input("Tulis pertanyaanmu di sini..."):
     # Tampilkan jawaban bot
     st.markdown(f"<div class='chat-bubble-bot'>🤖 {bot_reply}</div>", unsafe_allow_html=True)
     st.session_state.messages.append({"role": "assistant", "content": bot_reply})
-    #save_chat_history()
+    save_chat_history()
 
 # === Tombol Reset ===
 if st.button("🔄 Hapus Riwayat Chat"):
