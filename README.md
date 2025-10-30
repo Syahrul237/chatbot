@@ -45,11 +45,6 @@ Profil ini digunakan untuk menyesuaikan jawaban chatbot agar lebih relevan denga
 
 ---
 
-### 🔊 6. Text-to-Speech (Pyttsx3)
-Library `pyttsx3` disertakan untuk pengembangan fitur suara agar chatbot dapat membacakan jawaban secara langsung (opsional untuk pengembangan lanjutan).
-
----
-
 ## 🧰 Teknologi yang Digunakan
 
 | Komponen | Deskripsi |
@@ -57,7 +52,6 @@ Library `pyttsx3` disertakan untuk pengembangan fitur suara agar chatbot dapat m
 | **Streamlit** | Framework utama untuk UI dan interaktivitas web |
 | **Google Generative AI (Gemini 2.5 Flash)** | Model AI untuk memahami konteks dan menjawab pertanyaan |
 | **dotenv** | Mengelola API key dari file `.env` |
-| **Pyttsx3** | Text-to-speech lokal untuk narasi suara |
 | **JSON** | Format penyimpanan riwayat percakapan |
 | **Python 3.12** | Bahasa pemrograman utama |
 
