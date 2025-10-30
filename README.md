@@ -58,8 +58,12 @@ Profil ini digunakan untuk menyesuaikan jawaban chatbot agar lebih relevan denga
 ---
 
 ## ⚙️ Cara Menjalankan di Lokal
-
-### 1. Clone Repository
+### 1. Install VS Code + Miniconda
+### 2. Clone Repository
+### 3. Create environment : conda create -n nama-environtment python=3.12
+### 4. conda activate nama-environtment
+### 5. jalankan stremlit dengan cara ketik di terminal streamlit run nama_file.py
 ```bash
+
 git clone https://github.com/username/chatbot-umkm.git
 cd chatbot-umkm
